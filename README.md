@@ -1,23 +1,23 @@
-# RustDesk Server Program
+﻿# SafeDesk Server Program
 
-[![build](https://github.com/rustdesk/rustdesk-server/actions/workflows/build.yaml/badge.svg)](https://github.com/rustdesk/rustdesk-server/actions/workflows/build.yaml)
+[![build](https://github.com/safedesk/safedesk-server/actions/workflows/build.yaml/badge.svg)](https://github.com/safedesk/safedesk-server/actions/workflows/build.yaml)
 
-[**Download**](https://github.com/rustdesk/rustdesk-server/releases)
+[**Download**](https://github.com/safedesk/safedesk-server/releases)
 
-[**Manual**](https://rustdesk.com/docs/en/self-host/)
+[**Manual**](https://safedesk.com/docs/en/self-host/)
 
 [**Configuration & environment variables**](docs/environment-variables.md)
 
-[**FAQ**](https://github.com/rustdesk/rustdesk/wiki/FAQ)
+[**FAQ**](https://github.com/safedesk/safedesk/wiki/FAQ)
 
-[**How to migrate OSS to Pro**](https://rustdesk.com/docs/en/self-host/rustdesk-server-pro/installscript/#convert-from-open-source)
+[**How to migrate OSS to Pro**](https://safedesk.com/docs/en/self-host/safedesk-server-pro/installscript/#convert-from-open-source)
 
-Self-host your own RustDesk server, it is free and open source.
+Self-host your own SafeDesk server, it is free and open source.
 
 > [!IMPORTANT]
-> **Need more features?** [RustDesk Server Pro](https://rustdesk.com/pricing.html) might suit you better.
+> **Need more features?** [SafeDesk Server Pro](https://safedesk.com/pricing.html) might suit you better.
 >
-> **Want to develop your own server?** Start with [rustdesk-server-demo](https://github.com/rustdesk/rustdesk-server-demo), a simpler starting point than this repository.
+> **Want to develop your own server?** Start with [safedesk-server-demo](https://github.com/safedesk/safedesk-server-demo), a simpler starting point than this repository.
 
 ## How to build manually
 
@@ -27,11 +27,11 @@ cargo build --release
 
 Three executables will be generated in target/release.
 
-- hbbs - RustDesk ID/Rendezvous server
-- hbbr - RustDesk relay server
-- rustdesk-utils - RustDesk CLI utilities
+- hbbs - SafeDesk ID/Rendezvous server
+- hbbr - SafeDesk relay server
+- safedesk-utils - SafeDesk CLI utilities
 
-You can find updated binaries on the [Releases](https://github.com/rustdesk/rustdesk-server/releases) page.
+You can find updated binaries on the [Releases](https://github.com/safedesk/safedesk-server/releases) page.
 
 ## Configuration
 
@@ -56,4 +56,4 @@ bandwidth tuning, Docker image variables, and examples.
 
 ## Installation
 
-Please follow this [doc](https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/)
+Please follow this [doc](https://safedesk.com/docs/en/self-host/safedesk-server-oss/)

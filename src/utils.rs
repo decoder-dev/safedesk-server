@@ -1,4 +1,4 @@
-use dns_lookup::{lookup_addr, lookup_host};
+﻿use dns_lookup::{lookup_addr, lookup_host};
 use hbb_common::{bail, ResultType};
 use sodiumoxide::crypto::sign;
 use std::{
@@ -10,11 +10,11 @@ use std::{
 fn print_help() {
     println!(
         "Usage:
-    rustdesk-utils [command]\n
+    safedesk-utils [command]\n
 Available Commands:
     genkeypair                                   Generate a new keypair
     validatekeypair [public key] [secret key]    Validate an existing keypair
-    doctor [rustdesk-server]                     Check for server connection problems"
+    doctor [safedesk-server]                     Check for server connection problems"
     );
     process::exit(0x0001);
 }
@@ -161,7 +161,7 @@ fn main() {
         }
         "doctor" => {
             if args.len() <= 2 {
-                error_then_help("You must supply the rustdesk-server address");
+                error_then_help("You must supply the safedesk-server address");
             }
             doctor(args[2].as_str());
         }

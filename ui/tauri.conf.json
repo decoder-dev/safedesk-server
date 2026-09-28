@@ -1,4 +1,4 @@
-{
+﻿{
   "build": {
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "npm run dev",
@@ -7,7 +7,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "rustdesk_server",
+    "productName": "safedesk_server",
     "version": "0.1.2"
   },
   "tauri": {
@@ -47,7 +47,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "rustdesk.server",
+      "identifier": "safedesk.server",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -81,7 +81,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "RustDesk Server",
+        "title": "SafeDesk Server",
         "width": 980
       }
     ]

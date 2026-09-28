@@ -11,8 +11,8 @@
 ####################################################################
 # File Info
 
-!define APP_NAME "RustDeskServer"
-!define PRODUCT_NAME "rustdesk_server"
+!define APP_NAME "SafeDeskServer"
+!define PRODUCT_NAME "safedesk_server"
 !define PRODUCT_DESCRIPTION "Installer for ${PRODUCT_NAME}"
 !define COPYRIGHT "Copyright © 2021"
 !define VERSION "1.1.17"

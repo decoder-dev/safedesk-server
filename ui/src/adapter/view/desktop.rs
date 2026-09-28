@@ -1,4 +1,4 @@
-use std::{
+﻿use std::{
     process::exit,
     time::{Duration, Instant},
 };
@@ -115,7 +115,7 @@ pub async fn run(sender: Sender<Event>, receiver: Receiver<Event>) {
     let mut blink = false;
     let mut span = 0;
     let mut title = "".to_owned();
-    let product = "RustDesk Server";
+    let product = "SafeDesk Server";
     let buffer = BUFFER.get().unwrap().to_owned();
     loop {
         for _ in 1..buffer {

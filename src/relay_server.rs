@@ -1,4 +1,4 @@
-use async_speed_limit::Limiter;
+﻿use async_speed_limit::Limiter;
 use async_trait::async_trait;
 use hbb_common::{
     allow_err, bail,
@@ -436,7 +436,7 @@ async fn make_pair(
             // the WebSocket port directly to untrusted networks; only the
             // reverse proxy, which overwrites these headers, should be able to
             // connect to it.
-            // https://github.com/rustdesk/rustdesk-server/issues/634
+            // https://github.com/safedesk/safedesk-server/issues/634
             let real_ip = headers
                 .get("X-Real-IP")
                 .or_else(|| headers.get("X-Forwarded-For"))

@@ -1,4 +1,4 @@
-use clap::App;
+﻿use clap::App;
 mod common;
 mod relay_server;
 use flexi_logger::*;
@@ -20,8 +20,8 @@ fn main() -> ResultType<()> {
     );
     let matches = App::new("hbbr")
         .version(version::VERSION)
-        .author("Purslane Ltd. <info@rustdesk.com>")
-        .about("RustDesk Relay Server")
+        .author("Purslane Ltd. <info@safedesk.com>")
+        .about("SafeDesk Relay Server")
         .args_from_usage(&args)
         .get_matches();
     if let Ok(v) = ini::Ini::load_from_file(".env") {

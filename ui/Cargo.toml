@@ -1,7 +1,7 @@
-[package]
-name = "rustdesk_server"
+﻿[package]
+name = "safedesk_server"
 version = "0.1.2"
-description = "rustdesk server gui"
+description = "safedesk server gui"
 authors = ["elilchen"]
 edition = "2021"
 

@@ -1,4 +1,4 @@
-import 'codemirror/lib/codemirror.css';
+﻿import 'codemirror/lib/codemirror.css';
 import './style.css';
 import 'codemirror/mode/toml/toml.js';
 import CodeMirror from 'codemirror';
@@ -51,7 +51,7 @@ class View {
             } else {
                 if (now >= this.action_time) {
                     if (this.is_edit_mode) {
-                        this.content = `# https://github.com/rustdesk/rustdesk-server#env-variables
+                        this.content = `# https://github.com/safedesk/safedesk-server#env-variables
 RUST_LOG=info
 `;
                     }

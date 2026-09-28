@@ -1,0 +1,68 @@
+﻿#!/bin/sh
+
+# PROVIDE: safedesk_hbbs
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# safedesk_hbbs_enable (bool):            Set to NO by default.
+#               Set it to YES to enable safedesk_hbbs.
+# safedesk_hbbs_ip (string):              Set IP address/hostname of relay server to use
+#               Defaults to "127.0.0.1", please replace with your server hostname/IP.
+# safedesk_hbbs_args (string):            Set extra arguments to pass to safedesk_hbbs
+#               Default is "-r ${safedesk_hbbs_ip} -k _".
+# safedesk_hbbs_user (string):            Set user that safedesk_hbbs will run under
+#               Default is "root".
+# safedesk_hbbs_group (string):           Set group that safedesk_hbbs will run under
+#               Default is "wheel".
+
+. /etc/rc.subr
+
+name=safedesk_hbbs
+desc="Rustdesk ID/Rendezvous Server"
+rcvar=safedesk_hbbs_enable
+
+load_rc_config $name
+
+: ${safedesk_hbbs_enable:=NO}
+: ${safedesk_hbbs_ip:=127.0.0.1}
+: ${safedesk_hbbs_args="-r ${safedesk_hbbs_ip} -k _"}
+: ${safedesk_hbbs_user:=safedesk}
+: ${safedesk_hbbs_group:=safedesk}
+
+pidfile=/var/run/safedesk_hbbs.pid
+command=/usr/sbin/daemon
+procname=/usr/local/sbin/hbbs
+safedesk_hbbs_chdir=/var/db/safedesk-server
+command_args="-p ${pidfile} -o /var/log/safedesk-hbbs.log ${procname} ${safedesk_hbbs_args}"
+## If you want the daemon to do its log over syslog, comment out the above line and remove the comment from the below replacement
+#command_args="-p ${pidfile} -T ${name} ${procname} ${safedesk_hbbs_args}"
+
+start_precmd=safedesk_hbbs_startprecmd
+
+safedesk_hbbs_startprecmd()
+{
+    if [ -e ${pidfile} ]; then
+        chown ${safedesk_hbbs_user}:${safedesk_hbbs_group} ${pidfile};
+    else
+        install -o ${safedesk_hbbs_user} -g ${safedesk_hbbs_group} /dev/null ${pidfile};
+    fi
+    if [ -e ${safedesk_hbbs_chdir} ]; then
+        chown -R ${safedesk_hbbs_user}:${safedesk_hbbs_group} ${safedesk_hbbs_chdir};
+        chmod -R 770 ${safedesk_hbbs_chdir};
+    else
+        mkdir -m 770 ${safedesk_hbbs_chdir};
+        chown ${safedesk_hbbs_user}:${safedesk_hbbs_group} ${safedesk_hbbs_chdir};
+    fi
+    if [ -e /var/log/safedesk-hbbs.log ]; then
+        chown -R ${safedesk_hbbs_user}:${safedesk_hbbs_group} /var/log/safedesk-hbbs.log;
+        chmod 660 /var/log/safedesk-hbbs.log;
+    else
+        install -o ${safedesk_hbbs_user} -g ${safedesk_hbbs_group} /dev/null /var/log/safedesk-hbbs.log;
+        chmod 660 /var/log/safedesk-hbbs.log;
+    fi
+}
+
+run_rc_command "$1"

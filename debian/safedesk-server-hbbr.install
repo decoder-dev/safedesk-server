@@ -1,0 +1,2 @@
+﻿bin/hbbr usr/bin
+systemd/safedesk-hbbr.service lib/systemd/system

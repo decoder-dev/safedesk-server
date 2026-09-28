@@ -1,0 +1,65 @@
+﻿#!/bin/sh
+
+# PROVIDE: safedesk_hbbr
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# safedesk_hbbr_enable (bool):            Set to NO by default.
+#               Set it to YES to enable safedesk_hbbr.
+# safedesk_hbbr_args (string):            Set extra arguments to pass to safedesk_hbbr
+#               Default is "-k _".
+# safedesk_hbbr_user (string):            Set user that safedesk_hbbr will run under
+#               Default is "root".
+# safedesk_hbbr_group (string):           Set group that safedesk_hbbr will run under
+#               Default is "wheel".
+
+. /etc/rc.subr
+
+name=safedesk_hbbr
+desc="Rustdesk Relay Server"
+rcvar=safedesk_hbbr_enable
+
+load_rc_config $name
+
+: ${safedesk_hbbr_enable:=NO}
+: ${safedesk_hbbr_args="-k _"}
+: ${safedesk_hbbr_user:=safedesk}
+: ${safedesk_hbbr_group:=safedesk}
+
+pidfile=/var/run/safedesk_hbbr.pid
+command=/usr/sbin/daemon
+procname=/usr/local/sbin/hbbr
+safedesk_hbbr_chdir=/var/db/safedesk-server
+command_args="-p ${pidfile} -o /var/log/safedesk-hbbr.log ${procname} ${safedesk_hbbr_args}"
+## If you want the daemon do its log over syslog comment out the above line and remove the comment from the below replacement
+#command_args="-p ${pidfile} -T ${name} ${procname} ${safedesk_hbbr_args}"
+
+start_precmd=safedesk_hbbr_startprecmd
+
+safedesk_hbbr_startprecmd()
+{
+    if [ -e ${pidfile} ]; then
+        chown ${safedesk_hbbr_user}:${safedesk_hbbr_group} ${pidfile};
+    else
+        install -o ${safedesk_hbbr_user} -g ${safedesk_hbbr_group} /dev/null ${pidfile};
+    fi
+    if [ -e ${safedesk_hbbr_chdir} ]; then
+        chown -R ${safedesk_hbbr_user}:${safedesk_hbbr_group} ${safedesk_hbbr_chdir};
+        chmod -R 770 ${safedesk_hbbr_chdir};
+    else
+        mkdir -m 770 ${safedesk_hbbr_chdir};
+        chown ${safedesk_hbbr_user}:${safedesk_hbbr_group} ${safedesk_hbbr_chdir};
+    fi
+    if [ -e /var/log/safedesk-hbbr.log ]; then
+        chown -R ${safedesk_hbbr_user}:${safedesk_hbbr_group} /var/log/safedesk-hbbr.log;
+        chmod 660 /var/log/safedesk-hbbr.log;
+    else
+        install -o ${safedesk_hbbr_user} -g ${safedesk_hbbr_group} /dev/null /var/log/safedesk-hbbr.log;
+        chmod 660 /var/log/safedesk-hbbr.log;
+    fi
+}
+
+run_rc_command "$1"

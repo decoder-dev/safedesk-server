@@ -1,4 +1,4 @@
-use clap::App;
+﻿use clap::App;
 use hbb_common::{
     allow_err, anyhow::{Context, Result}, get_version_number, log, tokio, ResultType
 };
@@ -120,7 +120,7 @@ pub fn set_arg(name: &str, value: &str) {
 pub fn init_args(args: &str, name: &str, about: &str) {
     let matches = App::new(name)
         .version(crate::version::VERSION)
-        .author("Purslane Ltd. <info@rustdesk.com>")
+        .author("Purslane Ltd. <info@safedesk.com>")
         .about(about)
         .args_from_usage(args)
         .get_matches();
@@ -289,7 +289,7 @@ pub fn check_software_update() {
 
 #[tokio::main(flavor = "current_thread")]
 async fn check_software_update_() -> hbb_common::ResultType<()> {
-    let (request, url) = hbb_common::version_check_request(hbb_common::VER_TYPE_RUSTDESK_SERVER.to_string());
+    let (request, url) = hbb_common::version_check_request(hbb_common::VER_TYPE_SAFEDESK_SERVER.to_string());
     let latest_release_response = reqwest::Client::builder().build()?
         .post(url)
         .json(&request)
@@ -314,30 +314,30 @@ mod tests {
     #[test]
     fn argument_names_ignore_case_and_separator() {
         let aliases = [
-            "RUSTDESK-CONFIG-ALIAS-TEST",
-            "RUSTDESK_CONFIG_ALIAS_TEST",
-            "rustdesk-config-alias-test",
-            "rustdesk_config_alias_test",
-            "RustDesk_Config-Alias_Test",
+            "SAFEDESK-CONFIG-ALIAS-TEST",
+            "SAFEDESK_CONFIG_ALIAS_TEST",
+            "safedesk-config-alias-test",
+            "safedesk_config_alias_test",
+            "SafeDesk_Config-Alias_Test",
         ];
         for alias in aliases {
             std::env::remove_var(alias);
         }
         for alias in aliases {
             std::env::set_var(alias, alias);
-            assert_eq!(get_arg("RUSTDESK_CONFIG_ALIAS_TEST"), alias);
+            assert_eq!(get_arg("SAFEDESK_CONFIG_ALIAS_TEST"), alias);
             std::env::remove_var(alias);
         }
-        set_arg("rustdesk_config_alias_test", "normalized");
+        set_arg("safedesk_config_alias_test", "normalized");
         assert_eq!(
-            std::env::var("RUSTDESK-CONFIG-ALIAS-TEST").unwrap(),
+            std::env::var("SAFEDESK-CONFIG-ALIAS-TEST").unwrap(),
             "normalized"
         );
-        std::env::set_var("RUSTDESK_CONFIG_ALIAS_TEST", "inherited");
-        set_arg("rustdesk-config-alias-test", "higher-priority");
-        assert_eq!(get_arg("rustdesk_config_alias_test"), "higher-priority");
-        std::env::remove_var("RUSTDESK-CONFIG-ALIAS-TEST");
-        std::env::remove_var("RUSTDESK_CONFIG_ALIAS_TEST");
+        std::env::set_var("SAFEDESK_CONFIG_ALIAS_TEST", "inherited");
+        set_arg("safedesk-config-alias-test", "higher-priority");
+        assert_eq!(get_arg("safedesk_config_alias_test"), "higher-priority");
+        std::env::remove_var("SAFEDESK-CONFIG-ALIAS-TEST");
+        std::env::remove_var("SAFEDESK_CONFIG_ALIAS_TEST");
     }
 
     #[test]
