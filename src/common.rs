@@ -289,17 +289,25 @@ pub fn check_software_update() {
 
 #[tokio::main(flavor = "current_thread")]
 async fn check_software_update_() -> hbb_common::ResultType<()> {
-    let (request, url) = hbb_common::version_check_request(hbb_common::VER_TYPE_SAFEDESK_SERVER.to_string());
-    let latest_release_response = reqwest::Client::builder().build()?
-        .post(url)
-        .json(&request)
+    #[derive(serde::Deserialize)]
+    struct Release {
+        tag_name: String,
+    }
+
+    // Check this fork's releases without sending a device fingerprint to the upstream vendor.
+    let response = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(15))
+        .user_agent(concat!("SafeDeskServer/", env!("CARGO_PKG_VERSION")))
+        .build()?
+        .get("https://api.github.com/repos/decoder-dev/safedesk-server/releases/latest")
         .send()
         .await?;
-
-    let bytes = latest_release_response.bytes().await?;
-    let resp: hbb_common::VersionCheckResponse = serde_json::from_slice(&bytes)?;
-    let response_url = resp.url;
-    let latest_release_version = response_url.rsplit('/').next().unwrap_or_default();
+    // A new fork can legitimately have no published releases yet.
+    if response.status() == reqwest::StatusCode::NOT_FOUND {
+        return Ok(());
+    }
+    let release: Release = response.error_for_status()?.json().await?;
+    let latest_release_version = release.tag_name.trim_start_matches('v');
     if get_version_number(&latest_release_version) > get_version_number(crate::version::VERSION) {
        log::info!("new version is available: {}", latest_release_version);
     }
