@@ -9,7 +9,6 @@ edition = "2021"
 
 [build-dependencies]
 tauri-build = { version = "1.2", features = [] }
-winres = "0.1"
 
 [dependencies]
 async-std = { version = "1.12", features = ["attributes", "unstable"] }

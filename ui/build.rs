@@ -1,10 +1,8 @@
-fn main() {
-    tauri_build::build();
-    if cfg!(target_os = "windows") {
-        let mut res = winres::WindowsResource::new();
-        res.set_icon("icons\\icon.ico");
-        res.set_manifest(
-            r#"
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Tauri owns the Windows resources; a second winres build duplicates VERSIONINFO.
+    let windows = tauri_build::WindowsAttributes::new()
+        .window_icon_path("icons/icon.ico")
+        .app_manifest(r#"
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
 <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
     <security>
@@ -14,8 +12,7 @@ fn main() {
     </security>
 </trustInfo>
 </assembly>
-"#,
-        );
-        res.compile().unwrap();
-    }
+"#);
+    tauri_build::try_build(tauri_build::Attributes::new().windows_attributes(windows))?;
+    Ok(())
 }
